@@ -1,0 +1,1356 @@
+You are working on a project called ALTiLINK.
+
+ALTiLINK is a hiking/group-awareness and emergency-safety system designed for groups trekking in areas where normal cellular connectivity may be unreliable.
+
+The project has TWO connected parts:
+
+1. SOFTWARE PLATFORM
+   - React + TypeScript web application
+   - Python backend
+   - Existing machine-learning fall detection model
+   - Maps, group awareness, checkpoints, backtracking, emergency/SOS workflows
+   - Communication simulation and synchronization
+
+2. HARDWARE PLATFORM
+   - Heltec WiFi LoRa 32 V3 boards
+   - LoRa communication
+   - NEO-6M GPS module
+   - Future IMU/sensor hardware
+   - Hardware-generated location and emergency data
+   - Hardware communication with the ALTiLINK application
+
+IMPORTANT:
+The software prototype already exists and is substantially implemented.
+Hardware integration is currently being developed separately.
+Do NOT pretend that hardware communication is already integrated into the web application unless the code explicitly shows that it is.
+
+==================================================
+1. FINAL PURPOSE OF ALTiLINK
+==================================================
+
+The final ALTiLINK system should provide a safety and group-awareness platform for hikers.
+
+A group of trekkers should be able to:
+
+- Create or join a hiking group
+- Select a predefined trail
+- Start and end a hike
+- See group members and their locations
+- Track GPS positions
+- Define/check communication limits
+- Automatically create trail checkpoints
+- Delete incorrect/unwanted checkpoints
+- Generate a reverse/backtracking route
+- Trigger emergency SOS
+- Detect a possible fall using the existing ML model
+- Give the user a short opportunity to cancel a false fall alert
+- Automatically send an emergency alert if the user does not cancel
+- Share emergency information with the rest of the group
+- Eventually use LoRa hardware for communication when cellular connectivity is unavailable
+
+The system should remain HUMAN-CENTERED and PRACTICAL.
+
+Do NOT turn the UI into a futuristic/cyberpunk interface.
+
+Do NOT add unnecessary technical jargon to the normal user-facing UI.
+
+The system should look like a realistic hiking safety application.
+
+==================================================
+2. CURRENT SOFTWARE ARCHITECTURE
+==================================================
+
+Current high-level architecture:
+
+React + TypeScript
+        |
+        v
+Pages / Components
+        |
+        v
+SimulationContext
+        |
+        +----------------------+
+        |                      |
+        v                      v
+communicationService       Local state
+        |
+        +-----------------------------+
+        |                             |
+        v                             v
+Browser communication           HTTP API
+BroadcastChannel /              Python server.py
+localStorage /
+sessionStorage
+                                      |
+                                      +--> Group state
+                                      +--> Hike state
+                                      +--> Checkpoints
+                                      +--> Emergency state
+                                      +--> ML inference
+
+
+The SimulationContext is the main shared frontend state/logic layer.
+
+Pages and components should generally access shared functionality through:
+
+useSimulation()
+
+Do not duplicate major application state in individual pages if it already belongs in SimulationContext.
+
+==================================================
+3. CURRENT SOFTWARE TECHNOLOGY STACK
+==================================================
+
+Frontend:
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Lucide React
+- Leaflet
+- OpenTopoMap
+
+Backend:
+- Python
+- server/server.py
+- Lightweight Python HTTP server
+- In-memory registry/state
+- Port 3001
+
+ML:
+- Python
+- scikit-learn
+- Existing Random Forest model
+- Model file:
+  ml-model/models/fall_detector.joblib
+
+Dataset:
+- SisFall
+
+Testing/build:
+- Vitest
+- Vite
+
+Version control:
+- Git
+- GitHub
+
+IMPORTANT:
+Do not describe server.py as Flask/FastAPI unless the actual code explicitly proves that.
+Call it a lightweight Python HTTP backend/server.
+
+There is currently NO persistent database being used for the prototype.
+The backend stores temporary state in memory.
+
+==================================================
+4. CURRENT REPOSITORY
+==================================================
+
+Main project:
+
+C:\Users\Nirmal\.gemini\antigravity\scratch\altilink-new
+
+Important:
+There was an old nested folder:
+
+altilink combined (ML+App)
+
+Do NOT accidentally modify the old nested project.
+
+The active project is the TOP-LEVEL:
+
+altilink-new
+
+Important current Git branch:
+
+review-2-implementation
+
+Important commit:
+
+111abd8
+"Complete review 2 prototype implementation"
+
+This branch contains the current Review 2 prototype implementation.
+
+==================================================
+5. CURRENT SOFTWARE FEATURES ALREADY IMPLEMENTED
+==================================================
+
+The following functionality exists in the software prototype.
+
+--------------------------------------------------
+5.1 GROUP CREATION / JOINING
+--------------------------------------------------
+
+Users can create or join groups.
+
+WelcomeScreen.tsx handles the main create/join interaction.
+
+Joining calls:
+
+joinGroup(joinGroupCode, joinUserName, joinMemberId)
+
+Group-related state is handled through SimulationContext.
+
+The system uses group codes/IDs to associate users with the correct group.
+
+IMPORTANT:
+The frontend has a local-registry fallback for prototype/local operation.
+
+The Python backend has a stricter group existence check.
+
+Do NOT claim that the current frontend implementation guarantees that only backend-registered groups can join.
+
+--------------------------------------------------
+5.2 GROUP LOBBY
+--------------------------------------------------
+
+GroupLobbyPage.tsx provides:
+
+- Group information
+- Members
+- Leader information
+- Trek mode
+- Trail selection
+- Checkpoint interval
+- Offline map state
+- Start hike functionality
+
+It obtains shared state/actions through:
+
+useSimulation()
+
+Example actions/state include:
+
+groupProfile
+members
+currentUser
+trekMode
+setTrekMode
+selectedTrail
+setSelectedTrail
+checkpointIntervalMinutes
+setCheckpointIntervalMinutes
+isOfflineMapDownloaded
+toggleOfflineMap
+addLobbyMember
+removeLobbyMember
+startHike
+resetSession
+addToast
+
+IMPORTANT:
+
+addLobbyMember(...) is a SimulationContext action.
+
+It is NOT called joinGroup.
+
+--------------------------------------------------
+5.3 TRAIL SELECTION
+--------------------------------------------------
+
+The application contains a predefined trail catalogue.
+
+Users can select a trail before starting the hike.
+
+The selected trail is passed to the map.
+
+The main map should represent an actual hiking/trail environment rather than looking like a generic city map.
+
+Current map technology:
+
+Leaflet + OpenTopoMap.
+
+Do not replace this with a generic city-map style unless specifically requested.
+
+--------------------------------------------------
+5.4 MAIN MAP
+--------------------------------------------------
+
+Main map:
+
+src/components/map/LeafletMap.tsx
+
+It handles the main hiking map.
+
+It can display:
+
+- Trail route
+- Checkpoints
+- Group members
+- Start point
+- End point
+- Map controls
+
+The map uses OpenTopoMap.
+
+The main map is intended to be trail-focused.
+
+--------------------------------------------------
+5.5 GROUP GPS MINI MAP
+--------------------------------------------------
+
+Separate component:
+
+src/components/map/GroupGPSMiniMap.tsx
+
+Purpose:
+
+Show where the user and other group members are relative to each other.
+
+This is intentionally different from the main trail map.
+
+The mini-map is a GROUP AWARENESS view.
+
+Do not replace it with the main trail map unless specifically requested.
+
+--------------------------------------------------
+5.6 CHECKPOINT SYSTEM
+--------------------------------------------------
+
+Checkpoint simulation exists.
+
+Main control exists in:
+
+TrailMapPage.tsx
+
+There are simulation controls similar to:
+
++1 Min
+
+and:
+
++{checkpointIntervalMinutes} Min
+
+The checkpoint interval is configurable.
+
+Available interval values include:
+
+3
+5
+10
+15 minutes
+
+Default is currently 5 minutes.
+
+The important state is:
+
+checkpointIntervalMinutes
+
+The setter is:
+
+setCheckpointIntervalMinutes(...)
+
+--------------------------------------------------
+5.7 HOW AUTOMATIC CHECKPOINT CREATION WORKS
+--------------------------------------------------
+
+SimulationContext.tsx contains:
+
+advanceSimulatedTime()
+
+Conceptually:
+
+oldElapsed = simulatedElapsedSeconds
+
+newElapsed =
+    oldElapsed + minutes * 60
+
+intervalSec =
+    checkpointIntervalMinutes * 60
+
+The code checks whether the simulated time crossed a checkpoint interval.
+
+When an interval is crossed, a checkpoint is created.
+
+Checkpoint information includes things such as:
+
+- ID
+- name
+- latitude
+- longitude
+- altitude
+- sequence number
+- timestamp
+- passed state
+
+The checkpoint is then stored in application state and displayed on the map.
+
+This is currently a SIMULATION.
+
+It is NOT yet driven by real GPS hardware.
+
+==================================================
+6. CHECKPOINT DELETION
+==================================================
+
+Checkpoint deletion has been implemented.
+
+The UI provides a Delete option.
+
+A confirmation modal is shown before deletion.
+
+The confirmation calls a handler such as:
+
+handleConfirmDelete()
+
+The actual deletion occurs through:
+
+deleteCheckpoint(checkpointId)
+
+in SimulationContext.tsx.
+
+Conceptually:
+
+setCheckpoints(
+    prev => prev.filter(c => c.id !== checkpointId)
+)
+
+The deletion also synchronizes the relevant backend/communication state and resets relevant backtracking state.
+
+IMPORTANT:
+
+Deleting a checkpoint must actually remove it from:
+
+- checkpoint state
+- displayed checkpoint history
+- backtracking data
+
+Manual waypoints must remain distinguishable from automatic checkpoints.
+
+Do not merge these concepts unless specifically requested.
+
+==================================================
+7. BACKTRACKING
+==================================================
+
+Backtracking utility:
+
+src/utils/backtrack.ts
+
+Main function:
+
+generateBacktrackSequence(checkpoints)
+
+The function:
+
+1. Uses passed checkpoints
+2. Sorts by sequence number
+3. Reverses the order
+
+Example:
+
+CP1 → CP2 → CP3 → CP4
+
+becomes:
+
+CP4 → CP3 → CP2 → CP1
+
+The system can calculate distance/bearing information between checkpoint locations.
+
+IMPORTANT:
+
+DO NOT CLAIM THAT HAVERSINE DISTANCE IS DEFINITELY USED UNLESS THE ACTUAL CURRENT CODE IS VERIFIED.
+
+Previous explanations incorrectly assumed Haversine in some places.
+
+If exact distance mathematics is required, inspect the current implementation first.
+
+==================================================
+8. COMMUNICATION / GROUP SYNCHRONIZATION
+==================================================
+
+communicationService.ts handles communication between the frontend and backend/browser communication mechanisms.
+
+Current prototype communication can involve:
+
+- BroadcastChannel
+- localStorage/sessionStorage mechanisms
+- HTTP communication with server.py
+
+The current software communication is NOT actual LoRa communication.
+
+This distinction is extremely important.
+
+Current prototype:
+
+Frontend
+   ↓
+Browser communication / HTTP
+   ↓
+Python backend
+
+Future hardware:
+
+Heltec
+   ↓
+LoRa
+   ↓
+Heltec
+   ↓
+Gateway/application
+
+Do not claim that the current web prototype is already communicating over physical LoRa.
+
+==================================================
+9. LINK QUALITY / COMMUNICATION RANGE
+==================================================
+
+Utility:
+
+src/utils/linkAssessment.ts
+
+The current link-quality system is a simulation.
+
+It contains terrain-specific predefined measurements.
+
+Example Dense Forest values include approximately:
+
+100 m:
+RSSI -65
+SNR 9
+Packet success 100%
+
+200 m:
+RSSI -70
+SNR 8
+Packet success 100%
+
+300 m:
+RSSI -76
+SNR 7
+Packet success 98%
+
+400 m:
+RSSI -82
+SNR 5
+Packet success 95%
+
+500 m:
+RSSI -88
+SNR 2
+Packet success 82%
+
+Reliability condition:
+
+packetSuccess >= 90
+AND
+snr >= 0
+AND
+rssi >= -90
+
+The furthest distance satisfying the conditions becomes the reliable boundary.
+
+A safety margin is then applied.
+
+Conceptually:
+
+recommendedGroupLimit =
+    reliableBoundary *
+    (1 - safetyMarginPercent / 100)
+
+Example:
+
+Reliable boundary = 400 m
+Safety margin = 20%
+
+Recommended group limit = 320 m
+
+IMPORTANT:
+
+This is currently a SIMULATED link-quality assessment.
+
+It is NOT reading real LoRa RSSI/SNR from the Heltec hardware yet.
+
+==================================================
+10. EMERGENCY / MANUAL SOS
+==================================================
+
+SimulationContext contains:
+
+triggerManualSOS()
+
+It creates an EmergencyPacket.
+
+The packet contains information such as:
+
+packetID
+groupID
+senderID
+senderName
+messageType
+latitude
+longitude
+altitude
+timestamp
+
+Manual SOS uses:
+
+messageType = MANUAL_SOS
+
+The packet is sent through the current communication system.
+
+Emergency broadcasts are filtered by group code.
+
+Conceptually:
+
+currentCode =
+    groupProfile?.code?.toUpperCase()
+
+If incoming message groupCode does not match currentCode,
+ignore it.
+
+This prevents emergency messages from unrelated groups from being treated as local group emergencies.
+
+==================================================
+11. EMERGENCY RESOLUTION
+==================================================
+
+EmergencyPage.tsx contains:
+
+Resolve & Clear Alert
+
+This calls:
+
+resolveEmergency()
+
+The emergency state is cleared and synchronized.
+
+Other clients can receive:
+
+EMERGENCY_RESOLVED
+
+and clear their emergency state.
+
+==================================================
+12. FALL DETECTION
+==================================================
+
+This is one of the most important parts of the project.
+
+IMPORTANT:
+
+The existing trained ML model MUST be reused.
+
+Do NOT create a fake scoring system.
+
+Do NOT replace the existing Random Forest with a new model unless explicitly requested.
+
+Existing model:
+
+ml-model/models/fall_detector.joblib
+
+Backend previously reports:
+
+53 features
+200 estimators
+
+Evaluation information previously loaded:
+
+89.3% accuracy
+
+The existing feature extraction is:
+
+ml-model/feature_extraction.py
+
+--------------------------------------------------
+FALL DETECTION FLOW
+--------------------------------------------------
+
+Frontend simulation:
+
+startFallSimulation()
+
+generates simulated IMU samples.
+
+Normal values are generated during normal operation.
+
+A fall-like event is simulated around ticks 4–8.
+
+Example simulated values include increased acceleration and angular velocity.
+
+The generated IMU window is sent using:
+
+communicationService.predictFallFromIMU(windowSamples)
+
+The frontend sends the data to:
+
+POST /api/ml/predict
+
+Python server.py receives the samples.
+
+It then:
+
+1. Extracts features using the existing feature extraction pipeline.
+2. Builds the expected 53-feature vector.
+3. Runs the trained Random Forest.
+
+Conceptually:
+
+pred_label =
+    rf_model.predict(feature_vector)[0]
+
+pred_probs =
+    rf_model.predict_proba(feature_vector)[0]
+
+The backend returns the prediction.
+
+So:
+
+Simulated IMU
+      ↓
+Frontend
+      ↓
+Python backend
+      ↓
+Feature extraction
+      ↓
+53 features
+      ↓
+Existing Random Forest
+      ↓
+NORMAL / FALL
+      ↓
+Emergency workflow
+
+IMPORTANT:
+
+The Random Forest executes in Python backend.
+
+The browser does NOT execute the Python ML model.
+
+--------------------------------------------------
+FALL ALERT COUNTDOWN
+--------------------------------------------------
+
+When a fall is detected:
+
+A 10-second countdown is shown.
+
+The user gets an opportunity to cancel a false alert.
+
+EmergencyPage.tsx contains:
+
+[I'M OK — CANCEL]
+
+This calls:
+
+cancelFallAlert()
+
+If cancelled:
+
+- countdown is stopped
+- simulation intervals are cleared
+- fall alert stage becomes cancelled
+- SOS is not sent
+
+If the countdown reaches zero:
+
+confirmFallAndSendSOS()
+
+is triggered.
+
+This creates an emergency packet with:
+
+messageType = FALL_DETECTED
+
+and sends it to the group.
+
+==================================================
+13. GPS IN CURRENT SOFTWARE
+==================================================
+
+The current web prototype uses SIMULATED GPS/location data.
+
+The software is prepared to represent:
+
+latitude
+longitude
+altitude
+member positions
+emergency locations
+
+But these values are NOT currently being obtained from the physical NEO-6M.
+
+Do NOT pretend that the current web map is receiving real GPS from the Heltec.
+
+Physical GPS integration is the next hardware phase.
+
+==================================================
+14. CURRENT HARDWARE
+==================================================
+
+The confirmed hardware board is:
+
+Heltec WiFi LoRa 32 V3
+
+The board is the 863–928 MHz version.
+
+It contains:
+
+- ESP32-S3
+- LoRa radio
+- OLED display
+- Wi-Fi/Bluetooth capability
+- LoRa antenna connection
+
+The LoRa radio is used for long-range device-to-device communication.
+
+The board has already been connected to a laptop through USB.
+
+A basic Arduino test was successfully uploaded.
+
+The Serial Monitor successfully displayed:
+
+Hello from ALTiLINK
+
+at approximately:
+
+115200 baud
+
+This proves:
+
+Arduino IDE
+   ↓
+USB
+   ↓
+ESP32-S3
+   ↓
+Program execution
+   ↓
+Serial communication
+
+is working.
+
+The board also previously displayed its factory LoRa/Wi-Fi demo.
+
+A displayed:
+
+LoRa Error
+
+does NOT automatically mean the hardware is broken.
+
+==================================================
+15. CURRENT ARDUINO STATUS
+==================================================
+
+Arduino IDE is installed.
+
+ESP32 support has been installed/configured.
+
+The board is recognized as:
+
+ESP32S3 Dev Module
+
+in the current Arduino IDE setup.
+
+The official Heltec ESP32 library was identified as the preferred library.
+
+Preferred library:
+
+Heltec ESP32
+by Heltec Automation
+
+Version selected:
+
+2.1.6
+
+Do not use a random third-party Heltec library unless explicitly necessary.
+
+==================================================
+16. CURRENT HARDWARE DEVELOPMENT PHASE
+==================================================
+
+IMPORTANT:
+
+GPS integration is NOT the first hardware test.
+
+The current plan is:
+
+PHASE 1:
+Test Heltec → Heltec LoRa communication.
+
+Use two Heltec WiFi LoRa 32 V3 boards.
+
+First packet can simply be:
+
+Hello from ALTiLINK
+
+or:
+
+TREKKER_01
+
+The receiving board should display/print the message.
+
+PHASE 2:
+Send synthetic GPS information.
+
+Example:
+
+ID=TREKKER_01
+LAT=13.0827
+LON=80.2707
+
+This proves that a GPS-like data packet can be transmitted over LoRa.
+
+PHASE 3:
+Connect the physical NEO-6M.
+
+NEO-6M
+   ↓ UART
+Heltec V3
+
+The NEO-6M will provide real latitude/longitude.
+
+Then:
+
+NEO-6M
+   ↓
+Heltec V3
+   ↓
+real GPS packet
+   ↓
+LoRa
+   ↓
+second Heltec
+
+PHASE 4:
+Integrate the receiving hardware with the ALTiLINK software.
+
+==================================================
+17. NEO-6M GPS HARDWARE
+==================================================
+
+Available GPS module:
+
+u-blox NEO-6M breakout board.
+
+The NEO-6M is being used as the available prototype GPS module.
+
+It can provide location information through UART/NMEA.
+
+The intended interaction is:
+
+NEO-6M TX
+    →
+Heltec ESP32 RX
+
+NEO-6M RX
+    ←
+Heltec ESP32 TX
+
+GND
+    ↔️
+GND
+
+Exact Heltec V3 GPIO numbers MUST be verified against the current board documentation/example before wiring.
+
+Do NOT invent GPIO pins.
+
+The NEO-6M integration should first be tested independently by reading its NMEA output and obtaining a valid latitude/longitude.
+
+==================================================
+18. FINAL HARDWARE DATA FLOW
+==================================================
+
+The intended final hardware architecture is:
+
+                 TREKKER 1
+              ┌─────────────┐
+              │   NEO-6M    │
+              │     GPS     │
+              └──────┬──────┘
+                     │ UART
+                     ↓
+              ┌─────────────┐
+              │  Heltec V3  │
+              │ ESP32 + LoRa│
+              └──────┬──────┘
+                     │
+                     │ LoRa
+                     ↓
+              ┌─────────────┐
+              │  Heltec V3  │
+              │   Gateway   │
+              └──────┬──────┘
+                     │
+              Wi-Fi / BLE / USB
+                     │
+                     ↓
+              ┌─────────────┐
+              │  ALTiLINK   │
+              │ Mobile/Web  │
+              │    App      │
+              └─────────────┘
+
+The exact gateway-to-phone mechanism is NOT yet implemented.
+
+Do not claim it is already implemented.
+
+==================================================
+19. FUTURE HARDWARE PACKET
+==================================================
+
+A GPS packet could eventually contain:
+
+{
+    deviceId,
+    groupId,
+    latitude,
+    longitude,
+    altitude,
+    timestamp,
+    batteryLevel,
+    messageType
+}
+
+For example:
+
+{
+    deviceId: "TREKKER_01",
+    groupId: "ALTI123",
+    latitude: 13.0827,
+    longitude: 80.2707,
+    altitude: 15,
+    timestamp: "...",
+    batteryLevel: 87,
+    messageType: "GPS_UPDATE"
+}
+
+The exact packet format should be finalized during hardware integration.
+
+Do not overcomplicate the first LoRa test.
+
+First prove simple message transfer.
+
+Then synthetic GPS.
+
+Then real GPS.
+
+==================================================
+20. FUTURE EMERGENCY HARDWARE FLOW
+==================================================
+
+Eventually an emergency event can originate from hardware.
+
+For example:
+
+IMU
+ ↓
+Heltec
+ ↓
+fall detection / event generation
+ ↓
+Emergency packet
+ ↓
+LoRa
+ ↓
+other group members
+ ↓
+ALTiLINK application
+
+However, the current ML fall detection implementation is already working through:
+
+IMU samples
+ ↓
+Python backend
+ ↓
+Random Forest
+
+Do not replace this existing software pipeline just because physical hardware is being added.
+
+The hardware integration should complement the existing ML architecture.
+
+==================================================
+21. CURRENT SOFTWARE ↔️ HARDWARE RELATIONSHIP
+==================================================
+
+CURRENTLY:
+
+Software:
+React → communicationService → Python backend
+
+Hardware:
+Heltec → LoRa → Heltec
+
+These are currently separate development tracks.
+
+TARGET:
+
+Hardware
+   ↓
+LoRa
+   ↓
+Gateway/bridge
+   ↓
+ALTiLINK communication layer
+   ↓
+SimulationContext / application state
+   ↓
+React UI
+
+This allows the existing UI to remain useful while gradually replacing simulated data with real hardware data.
+
+==================================================
+22. APP CONVERSION PLAN
+==================================================
+
+The current ALTiLINK application is a React + TypeScript web application.
+
+Eventually it should become a mobile application.
+
+The preferred approach is to use Capacitor rather than rewriting the entire application from scratch.
+
+Capacitor is designed to add a native mobile runtime around an existing web application.
+
+The intended direction is:
+
+React + TypeScript + Vite
+        ↓
+existing ALTiLINK web app
+        ↓
+Capacitor
+        ↓
+Android / iOS application
+
+The existing React UI and application logic should be preserved wherever practical.
+
+Do NOT rewrite the entire application into another framework just for mobile conversion.
+
+After conversion, the application must still be extensible.
+
+Future modules can continue to be added, such as:
+
+- Live GPS
+- LoRa gateway communication
+- Battery status
+- Offline maps
+- Notifications
+- Weather
+- Additional emergency features
+- More trail features
+- Hardware diagnostics
+- Device management
+- New ML models/features
+
+Capacitor supports adding native functionality through plugins/custom native code when web APIs are insufficient.
+
+Therefore:
+
+"Website converted to app"
+does NOT mean
+"development is finished."
+
+The app remains an extensible software platform.
+
+==================================================
+23. FINAL SYSTEM VISION
+==================================================
+
+The final ALTiLINK architecture should conceptually become:
+
+                    ALTiLINK
+                       │
+        ┌──────────────┴──────────────┐
+        │                             │
+     SOFTWARE                      HARDWARE
+        │                             │
+ React + TypeScript             Heltec V3
+        │                             │
+ SimulationContext               LoRa
+        │                             │
+ communicationService           NEO-6M GPS
+        │                             │
+ Python backend                   Future IMU
+        │                             │
+ Random Forest                  Hardware packets
+        │                             │
+ Maps / SOS / GPS                  LoRa network
+ Checkpoints / Backtracking          │
+        │                             │
+        └──────────────┬──────────────┘
+                       │
+                 ALTiLINK APP
+                       │
+             Group safety platform
+
+The core idea:
+
+Every trekker carries a hardware node.
+
+The node can eventually obtain:
+
+- GPS position
+- sensor information
+- emergency information
+- device status
+
+The nodes communicate through LoRa.
+
+The ALTiLINK application visualizes and manages the group.
+
+==================================================
+24. WHAT IS ALREADY DONE VS WHAT IS FUTURE
+==================================================
+
+ALREADY IMPLEMENTED IN SOFTWARE:
+
+✓ React + TypeScript application
+✓ Vite setup
+✓ Tailwind UI
+✓ Group creation/join
+✓ Group lobby
+✓ Trail catalogue
+✓ Trail selection
+✓ Main hiking map
+✓ OpenTopoMap
+✓ Group GPS mini-map
+✓ Group member visualization
+✓ Simulated GPS
+✓ Checkpoint interval configuration
+✓ Automatic simulated checkpoints
+✓ Checkpoint deletion + confirmation
+✓ Backtracking
+✓ Manual waypoints
+✓ Group communication simulation
+✓ Group filtering
+✓ Manual SOS
+✓ Emergency broadcast workflow
+✓ Emergency resolution
+✓ Communication/link-quality simulation
+✓ Terrain-specific link assessment
+✓ Safety margin
+✓ Existing Random Forest fall detector
+✓ Existing SisFall-based ML pipeline
+✓ 53-feature inference pipeline
+✓ Fall countdown
+✓ Cancel fall alert
+✓ Automatic fall SOS
+✓ Python backend
+✓ Backend ML inference API
+✓ Git branch for Review 2
+✓ Review 2 implementation committed
+
+CURRENT HARDWARE PROGRESS:
+
+✓ Heltec WiFi LoRa 32 V3 confirmed
+✓ USB connection working
+✓ Arduino IDE working
+✓ ESP32-S3 code upload working
+✓ Serial Monitor working
+✓ "Hello from ALTiLINK" successfully tested
+✓ 115200 baud tested
+✓ LoRa antenna available
+✓ NEO-6M GPS module available
+
+CURRENT NEXT HARDWARE TASK:
+
+→ Test Heltec V3 → Heltec V3 LoRa communication.
+
+THEN:
+
+→ Send synthetic GPS packet.
+
+THEN:
+
+→ Connect NEO-6M.
+
+THEN:
+
+→ Send real GPS coordinates through LoRa.
+
+THEN:
+
+→ Build the gateway/bridge between hardware and ALTiLINK software.
+
+THEN:
+
+→ Convert ALTiLINK into a mobile application while preserving the existing React application.
+
+==================================================
+25. IMPORTANT DEVELOPMENT RULES
+==================================================
+
+1. Do not destroy working functionality.
+
+2. Do not rewrite the project unnecessarily.
+
+3. Before modifying a feature, inspect the current implementation.
+
+4. Preserve the current human-centered UI.
+
+5. Do not introduce futuristic/cyber UI.
+
+6. Do not replace the existing Random Forest fall model.
+
+7. Do not claim simulated functionality is real hardware functionality.
+
+8. Do not claim actual LoRa communication exists in the web prototype until physical LoRa integration is completed.
+
+9. Do not claim GPS is coming from the NEO-6M until the hardware is actually connected and tested.
+
+10. Do not invent GPIO pins, packet formats, API endpoints, libraries, or hardware capabilities.
+    Inspect the actual board/code/documentation first.
+
+11. When adding hardware functionality, integrate it into the existing architecture rather than creating a disconnected parallel application.
+
+12. Keep SimulationContext as the central frontend state layer unless there is a strong architectural reason to change it.
+
+13. Reuse communicationService for communication abstraction where appropriate.
+
+14. Keep hardware-specific code separate from UI code.
+
+15. Keep the system modular so additional hardware and software modules can be added later.
+
+16. When explaining changes, clearly distinguish:
+
+    ALREADY IMPLEMENTED
+    CURRENTLY BEING TESTED
+    FUTURE / PLANNED
+
+17. Before making large changes, explain:
+    - what files will change
+    - why they need changing
+    - what existing behavior will be preserved
+
+18. Prefer incremental implementation and testing.
+
+19. For hardware:
+    First test one component at a time.
+
+    Heltec
+      ↓
+    LoRa
+      ↓
+    synthetic packet
+      ↓
+    GPS
+      ↓
+    real GPS packet
+      ↓
+    software integration
+
+20. The final product should remain practical, understandable, and suitable for a real hiking safety scenario.
+
+==================================================
+26. CURRENT DEVELOPMENT PRIORITY
+==================================================
+
+DO NOT jump directly into GPS or app conversion.
+
+The immediate priority is:
+
+1. Confirm Heltec V3 LoRa transmitter works.
+2. Confirm second Heltec V3 receives.
+3. Send a simple text packet.
+4. Send synthetic latitude/longitude.
+5. Connect NEO-6M.
+6. Read real GPS coordinates.
+7. Send real GPS packet through LoRa.
+8. Integrate received hardware data into ALTiLINK.
+9. Continue improving the existing application.
+10. Convert the mature web application into a mobile application.
+11. Continue adding modules after conversion.
+
+Always maintain this staged approach unless explicitly instructed otherwise.

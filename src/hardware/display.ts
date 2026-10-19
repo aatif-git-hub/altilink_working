@@ -1,0 +1,2 @@
+export const numberOrUnknown = (n: number | undefined, digits = 0) => n !== undefined && Number.isFinite(n) ? n.toFixed(digits) : 'Unavailable';
+export const coordinates = (p: {latitude: number; longitude: number; gpsValid?: boolean} | undefined) => p && p.gpsValid !== false && Number.isFinite(p.latitude) && Number.isFinite(p.longitude) ? `${p.latitude.toFixed(4)}, ${p.longitude.toFixed(4)}` : 'GPS unavailable';

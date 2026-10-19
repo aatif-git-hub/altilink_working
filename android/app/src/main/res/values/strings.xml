@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AltiLink</string>
+    <string name="title_activity_main">AltiLink</string>
+    <string name="package_name">in.altilink.prototype</string>
+    <string name="custom_url_scheme">in.altilink.prototype</string>
+</resources>

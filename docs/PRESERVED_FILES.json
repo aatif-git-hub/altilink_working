@@ -1,0 +1,357 @@
+{
+  "base_commit": "2aaeb150721e232ac5b4ead708475da21fbb45e9",
+  "files": [
+    {
+      "path": "ml-model/train_sisfall_baseline.py",
+      "sha256": "f08238be14a4ca1094e94668b1372015875e3d88d8ec4c3e4d436009d74294af"
+    },
+    {
+      "path": "ml-model/.gitignore",
+      "sha256": "913d6aec1f89193c3e518aed444e65f510b4769465ebf7a95614b32d0f3683b7"
+    },
+    {
+      "path": "ml-model/demo_live_classification.py",
+      "sha256": "e3c0a252cbcd8cfb7bbf6adfc631a7a70059e277d0a0e6ed0d8e5e779e21f8dc"
+    },
+    {
+      "path": "ml-model/feature_extraction.py",
+      "sha256": "0612405257ca76120c50d042c844d1b03cfc57ed47f09607064dd793cd93f06b"
+    },
+    {
+      "path": "ml-model/train_unified_main.py",
+      "sha256": "eb9ba6f2120c745c35cdaf2719d65da178c60b0816caa72f6fa7e5365513599e"
+    },
+    {
+      "path": "ml-model/data_loader_cross_dataset.py",
+      "sha256": "5893fc19a143c6c8ee3df8e2d9dd0b2b072e3d1a37b3633425658c26136cd96e"
+    },
+    {
+      "path": "ml-model/Screenshot 2026-08-29 at 10.44.57\u202fPM.png",
+      "sha256": "a851d7bfa8080c1d0acecc2157ef8c054766c664219c8ce604bd9a800b45235b"
+    },
+    {
+      "path": "ml-model/train_cross_dataset.py",
+      "sha256": "880dda98a60fe89a87ce125a49e54949fc53a9ed7061db472ddfc439cf6c83fa"
+    },
+    {
+      "path": "ml-model/generate_comparison_report.py",
+      "sha256": "c2e2955a673d37be54e87c8ad240f5d9b8356ae604bab101b3b5a6055e1829ba"
+    },
+    {
+      "path": "ml-model/Screenshot 2026-08-29 at 10.44.21\u202fPM.png",
+      "sha256": "9748c4b487f85fab978acca6a9b8b49afc08a9419e289ad0d83669777add70f7"
+    },
+    {
+      "path": "ml-model/train_model.py",
+      "sha256": "6abfefaccf5fdc927998264a1e4d0aa1718d6877fa59a727262d717d1f8e0aa7"
+    },
+    {
+      "path": "ml-model/README.md",
+      "sha256": "6add661c7de085407b2b352f88aedeaaa0490cb2f6f69aa6024987dee8cccd54"
+    },
+    {
+      "path": "ml-model/data_loader.py",
+      "sha256": "e3cd492bae2be142c0344fe5fe3fed2e879336794b88afd163f67e4d539aeef1"
+    },
+    {
+      "path": "ml-model/realtime_streaming_inference.py",
+      "sha256": "541110295cf37a2e9221c0daf2c9ff17867596a411debe05cb50518a5736c19a"
+    },
+    {
+      "path": "ml-model/requirements.txt",
+      "sha256": "e3141315a2750e57d162de1f82dc0f84a62b4f0daa2dcd2bd7eb20a8fd999e2f"
+    },
+    {
+      "path": "ml-model/Screenshot 2026-08-29 at 10.47.00\u202fPM.png",
+      "sha256": "65d8f7b8483da7df39fc5774cc7acdedc923117c1349064995455d7d42629668"
+    },
+    {
+      "path": "ml-model/ALTILINK_ML_IMPLEMENTATION_CONTRACT.md",
+      "sha256": "83b23de1f178b77239a654ab0df71c7dfba5f0ce6e97345757640d9f01dc5a07"
+    },
+    {
+      "path": "ml-model/models/fall_detector.joblib",
+      "sha256": "ed19ec320b051be8b77f11693b635f629c6e2afc9a1747611c0e5164097823fa"
+    },
+    {
+      "path": "ml-model/data/README.md",
+      "sha256": "0836b6d10d05b9d8944d22943ad2ad534331cbb022297022a72c64f952700705"
+    },
+    {
+      "path": "ml-model/demo_data/held_out_test_windows.joblib",
+      "sha256": "05b2d72c9836eade45c9641072ed9a28e72a89dde3612db76d1da6570a1f5fb4"
+    },
+    {
+      "path": "ml-model/outputs/confusion_matrix.png",
+      "sha256": "07855051f86a05746977b82180fad1dbb5804ea8d6b92b3867b65ee5c9e592a8"
+    },
+    {
+      "path": "ml-model/outputs/feature_importance.png",
+      "sha256": "cbe4289e5d356389076d5fd78c12e28a8a1a636a3729137ba527529681483b44"
+    },
+    {
+      "path": "ml-model/outputs/metrics.json",
+      "sha256": "3961e30aa2a93aaa4b8b3632d553f4554941a6dcfbda2aba657b75a3baf5f97f"
+    },
+    {
+      "path": "ml-model/outputs/android/FallDetectorModel.java",
+      "sha256": "81b11d8c84dd0d31f9805d7f102f93b0f04dd4935ed62e198ec18d0ac0f58d2d"
+    },
+    {
+      "path": "server/server.py",
+      "sha256": "452efcf471a15600c08f913749ad8bc6cb455865a59d22c2f9863f916c5ba5d2"
+    },
+    {
+      "path": "src/utils/groupFilter.ts",
+      "sha256": "7fb7fedcb2ffd3d8363aaba3b3d29ed4e3182b6de87bbfa86671f7cd371dc5bf"
+    },
+    {
+      "path": "src/utils/linkAssessment.ts",
+      "sha256": "d460cb347066746963e10def851b4a4ed53360e2e8e86118e34c8854237432e3"
+    },
+    {
+      "path": "src/utils/backtrack.ts",
+      "sha256": "1408bb24c2d947fcf677dd619e8f1b0ea2735ec400431fccbce1c6c2b65058e1"
+    },
+    {
+      "path": "src/utils/haversine.ts",
+      "sha256": "de83a2b6cb5cf620ad0e57b5de00c04a6c3878a45c3b37907c08adc8038b8384"
+    },
+    {
+      "path": "altilink combined(ML+App)/index.html",
+      "sha256": "b0ffef1e5de0ff9e0588d207602dca043f58c792855142c84b32e35ba23e16bc"
+    },
+    {
+      "path": "altilink combined(ML+App)/vite.config.ts",
+      "sha256": "d765b030e8f8d915c272d9c34bd046d686e8234c7cc65e575302223ebdb4cf27"
+    },
+    {
+      "path": "altilink combined(ML+App)/tsconfig.json",
+      "sha256": "31494fb5ecdb221273f2c8493538be7e62aefd638cd0f090c67656a43e488d3a"
+    },
+    {
+      "path": "altilink combined(ML+App)/package-lock.json",
+      "sha256": "00aacba15bff3e378403c05113fd517fc43899005ee7952f15edcc610a1e61d6"
+    },
+    {
+      "path": "altilink combined(ML+App)/tailwind.config.js",
+      "sha256": "d406076e00fddccb0c4aca9aba338af320f36e467337a0fa7323d8ff614b2c50"
+    },
+    {
+      "path": "altilink combined(ML+App)/postcss.config.js",
+      "sha256": "190c877db466995bf1482f4a16abd06e04a89ede3119341e2a86ff96e1737b27"
+    },
+    {
+      "path": "altilink combined(ML+App)/package.json",
+      "sha256": "092dfa6a7d4bec334d56c427fdf720b2eadb66887e8b78857c185a4584a8151c"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/App.tsx",
+      "sha256": "b62c5d684671b5534b37edab77772c3cf98690b146707c7adaba717ce28aeede"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/index.css",
+      "sha256": "8c4807d8dcd325f87a914096cc64ee0bf7649444e7feb32bdd038430a785bfd6"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/main.tsx",
+      "sha256": "14a10dee4aaa2130d9f57c136db7f16f95f524d60d77146b17776e91c2ab626c"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/.gitignore",
+      "sha256": "913d6aec1f89193c3e518aed444e65f510b4769465ebf7a95614b32d0f3683b7"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/demo_live_classification.py",
+      "sha256": "bb54f57b4ff468b0a2d89e19a61344aa675e0262ac13b0095e6adbeb2c55e5bd"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/feature_extraction.py",
+      "sha256": "ea9b2ccdc9b07a4d4311183025b94ed33b65617ad2afbb2115439fc5e0d2caa4"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/Screenshot 2026-08-29 at 10.44.57\u202fPM.png",
+      "sha256": "a851d7bfa8080c1d0acecc2157ef8c054766c664219c8ce604bd9a800b45235b"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/Screenshot 2026-08-29 at 10.44.21\u202fPM.png",
+      "sha256": "9748c4b487f85fab978acca6a9b8b49afc08a9419e289ad0d83669777add70f7"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/train_model.py",
+      "sha256": "80155f628ab420a7abbce142833d698b04978ba8371dd89584f2a6814d0a8dae"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/README.md",
+      "sha256": "6add661c7de085407b2b352f88aedeaaa0490cb2f6f69aa6024987dee8cccd54"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/data_loader.py",
+      "sha256": "e3cd492bae2be142c0344fe5fe3fed2e879336794b88afd163f67e4d539aeef1"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/requirements.txt",
+      "sha256": "e3141315a2750e57d162de1f82dc0f84a62b4f0daa2dcd2bd7eb20a8fd999e2f"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/Screenshot 2026-08-29 at 10.47.00\u202fPM.png",
+      "sha256": "65d8f7b8483da7df39fc5774cc7acdedc923117c1349064995455d7d42629668"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/ALTILINK_ML_IMPLEMENTATION_CONTRACT.md",
+      "sha256": "83b23de1f178b77239a654ab0df71c7dfba5f0ce6e97345757640d9f01dc5a07"
+    },
+    {
+      "path": "altilink combined(ML+App)/public/favicon.svg",
+      "sha256": "61bc9a161de58248288e6905425d7180f0624c2865007b97d763fdac12043a66"
+    },
+    {
+      "path": "altilink combined(ML+App)/public/icons.svg",
+      "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/assets/hero.png",
+      "sha256": "881ffbcaafc212e49addad08846a5b82761355fa20624253af3477ba33262c5c"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/assets/typescript.svg",
+      "sha256": "e45b2f008f0a40c1011b0fd460081f8bb00df063a41240449159da164724d96c"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/assets/vite.svg",
+      "sha256": "5be21acd42eb7b896e517f4e0f0f11eb5c5d9e54fbbcebe9453f033008fcca6f"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/services/communicationService.ts",
+      "sha256": "4a84e78f1a5ef7a0532d4442bc6309c09ece87cdc43d0559426069f9bf9ddb0d"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/data/initialData.ts",
+      "sha256": "db78b2292632df9c86fbeb6e8babbcfa3a6648d6e644e9614d69f87a6dd7c47a"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/utils/groupFilter.ts",
+      "sha256": "7fb7fedcb2ffd3d8363aaba3b3d29ed4e3182b6de87bbfa86671f7cd371dc5bf"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/utils/linkAssessment.ts",
+      "sha256": "d460cb347066746963e10def851b4a4ed53360e2e8e86118e34c8854237432e3"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/utils/backtrack.ts",
+      "sha256": "5797e31b7b76b945cf6ad58aa3e85c2a8d9451afa8dc575b73e65809d0b8a3c6"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/utils/haversine.ts",
+      "sha256": "de83a2b6cb5cf620ad0e57b5de00c04a6c3878a45c3b37907c08adc8038b8384"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/__tests__/algorithms.test.ts",
+      "sha256": "63952af8718ee5b026376e1299d3cb1ff181acacd6412308ea6a673ce6e5f6ba"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/pages/GroupLobbyPage.tsx",
+      "sha256": "3bb697490b507475a508ddb3cda84c443b54d186e7c5df8eba49d0a007c60f7a"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/pages/WelcomeScreen.tsx",
+      "sha256": "1847dc029f5b359cc365e3bee4a2f5ed3fd448dcce7a52cc0f7d5b09df69bacd"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/pages/EmergencyPage.tsx",
+      "sha256": "d04c2b0a8c16b58ccf8663e243414f2c300239c5fbcb98a2ad95daeca7fdc3a6"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/pages/GroupAwarenessPage.tsx",
+      "sha256": "95ffe2acc1281885e59149438e22a501e038a9490a563564789fd2f9c2048b3a"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/pages/LinkStatusPage.tsx",
+      "sha256": "9cbe7ac32abb2fc88874d73201b2875aaff0f6c11392425d47d0b24df8de4c73"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/pages/DashboardPage.tsx",
+      "sha256": "c21ace8257e5e4a7e9099aab339994fa15cd05eae0e4b40d5ace8e920fae659e"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/pages/TrailMapPage.tsx",
+      "sha256": "3b7465bdbfebdbdb21a8bd41983d17af63abdc0dba587e741387cc00545b3b02"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/types/index.ts",
+      "sha256": "f8ab96321bd800d92b6fe040f1c2f76f57452354be434a1f1672dd8ca9d5a81e"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/context/SimulationContext.tsx",
+      "sha256": "868c772a38a280fc8e5dd99064718b7d6246f6c34a197401b475fe8d64bb4f34"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/components/map/LeafletMap.tsx",
+      "sha256": "83c9b39bcf9694d58422bf962963d4a0614f41827ad7d00ef5f2efc22ab06125"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/components/common/ToastContainer.tsx",
+      "sha256": "580259b56ff902a27593756f92f4b6fb3fce3c65b87228066f35a87ee20f6d0f"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/components/common/MetricCard.tsx",
+      "sha256": "3bea0a7ae27be6bd5d36e47f9464c11046dd0d8eced0e6021323b2c98728491f"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/components/common/SimulatedHardwareNotice.tsx",
+      "sha256": "013d1e046ce5e917be4e255c3d299aba84096f2a3fe74e3354656aecef9f6957"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/components/common/ConfirmationModal.tsx",
+      "sha256": "4da33db9fd8cfc49868980d32ceaa840d7b6f1f0677c0d32c86a65fdfde83508"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/components/common/StatusBadge.tsx",
+      "sha256": "7dec03256c24e7d901b41b2d027003c099d53501e885d5c163ef46113df28456"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/components/layout/TopBar.tsx",
+      "sha256": "0558c82187d6c7ad05ada8b3ddcfef15cdf75baba3409c2d41ff8e53a302f6f1"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/components/layout/MobileNav.tsx",
+      "sha256": "734352b704d075a83e6d984d2cfbb99db9c522e794061e3fd6cb602fe29ad661"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/components/layout/AppShell.tsx",
+      "sha256": "e088deab4560c1abd2386227887c0c036bb23a9dbda45aa139436a17bd16b02b"
+    },
+    {
+      "path": "altilink combined(ML+App)/src/components/layout/Sidebar.tsx",
+      "sha256": "6a15ca2a59a199a83e0841eaebad881026d11ddf7437e30ab1c3784f6c1d5169"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/models/fall_detector.joblib",
+      "sha256": "ed19ec320b051be8b77f11693b635f629c6e2afc9a1747611c0e5164097823fa"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/data/README.md",
+      "sha256": "0836b6d10d05b9d8944d22943ad2ad534331cbb022297022a72c64f952700705"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/demo_data/held_out_test_windows.joblib",
+      "sha256": "05b2d72c9836eade45c9641072ed9a28e72a89dde3612db76d1da6570a1f5fb4"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/outputs/confusion_matrix.png",
+      "sha256": "07855051f86a05746977b82180fad1dbb5804ea8d6b92b3867b65ee5c9e592a8"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/outputs/feature_importance.png",
+      "sha256": "cbe4289e5d356389076d5fd78c12e28a8a1a636a3729137ba527529681483b44"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/outputs/metrics.json",
+      "sha256": "3961e30aa2a93aaa4b8b3632d553f4554941a6dcfbda2aba657b75a3baf5f97f"
+    },
+    {
+      "path": "altilink combined(ML+App)/ml-model/outputs/android/FallDetectorModel.java",
+      "sha256": "81b11d8c84dd0d31f9805d7f102f93b0f04dd4935ed62e198ec18d0ac0f58d2d"
+    }
+  ]
+}
